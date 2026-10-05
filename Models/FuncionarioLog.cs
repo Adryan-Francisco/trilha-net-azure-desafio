@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Globalization;
 using Azure;
 using Azure.Data.Tables;
 
@@ -30,5 +31,20 @@ namespace TrilhaNetAzureDesafio.Models
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
         public ETag ETag { get; set; }
+
+        public TableEntity ToTableEntity() => new TableEntity(PartitionKey, RowKey)
+        {
+            [nameof(Id)] = Id,
+            [nameof(Nome)] = Nome,
+            [nameof(Endereco)] = Endereco,
+            [nameof(Ramal)] = Ramal,
+            [nameof(EmailProfissional)] = EmailProfissional,
+            [nameof(Departamento)] = Departamento,
+            // Table Storage does not support decimal. A string retains exact monetary values.
+            [nameof(Salario)] = Salario.ToString(CultureInfo.InvariantCulture),
+            [nameof(DataAdmissao)] = DataAdmissao?.ToUniversalTime(),
+            [nameof(TipoAcao)] = (int)TipoAcao,
+            [nameof(JSON)] = JSON
+        };
     }
 }

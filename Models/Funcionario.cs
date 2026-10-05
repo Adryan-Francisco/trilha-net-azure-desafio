@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace TrilhaNetAzureDesafio.Models
 {
     public class Funcionario
@@ -17,12 +19,12 @@ namespace TrilhaNetAzureDesafio.Models
         }
 
         public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Endereco { get; set; }
-        public string Ramal { get; set; }
-        public string EmailProfissional { get; set; }
-        public string Departamento { get; set; }
-        public decimal Salario { get; set; }
+        [Required, StringLength(200)] public string Nome { get; set; }
+        [StringLength(1000)] public string Endereco { get; set; }
+        [StringLength(20)] public string Ramal { get; set; }
+        [Required, EmailAddress, StringLength(254)] public string EmailProfissional { get; set; }
+        [Required, StringLength(200)] public string Departamento { get; set; }
+        [Range(typeof(decimal), "0", "9999999999999999.99", ParseLimitsInInvariantCulture = true)] public decimal Salario { get; set; }
         public DateTimeOffset? DataAdmissao { get; set; }
     }
 }
